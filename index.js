@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const app = express();
 const workflowRoutes = require("./Routes/workflows");
+var cors = require("cors");
 require("dotenv").config();
 
 const port = process.env.PORT || 3001;
@@ -13,6 +14,7 @@ mongoose.connect(process.env.DB_CONNECT, () => {
 });
 
 //Middleware
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
