@@ -17,6 +17,7 @@ router.post("/create", async (request, response) => {
     amount: requestData.amount,
     waiver: requestData.waiver,
     name: requestData.name,
+    totalOutStanding: requestData.totalOutStanding,
   });
   try {
     const savedData = await data.save();
@@ -30,7 +31,9 @@ router.post("/create", async (request, response) => {
 router.get("/shortenedUrls", async (request, response) => {
   const data = await Settlement.find();
   try {
-    response.send(data.map((data) => data.shortenedUrl));
+    response.send(
+      data.map((data) => ({ url: data.shortenedUrl, workflow: data.workflow }))
+    );
   } catch (err) {
     response.status(400).send(err);
   }

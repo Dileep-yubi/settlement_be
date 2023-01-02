@@ -23,7 +23,6 @@ const settlementSchema = mongoose.Schema({
   },
   options: [
     {
-      
       emi: { type: Number, required: true },
       tenure: { type: Number, required: true },
       roi: { type: Number, required: true },
@@ -36,6 +35,10 @@ const settlementSchema = mongoose.Schema({
   waiver: {
     type: Number,
     required: false,
+  },
+  totalOutStanding: {
+    type: Number,
+    required: true,
   },
 });
 
