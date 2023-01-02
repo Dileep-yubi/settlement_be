@@ -16,6 +16,7 @@ router.post("/create", async (request, response) => {
     options: requestData.options,
     amount: requestData.amount,
     waiver: requestData.waiver,
+    name: requestData.name,
   });
   try {
     const savedData = await data.save();

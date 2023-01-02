@@ -5,6 +5,10 @@ const settlementSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  name: {
+    type: String,
+    required: true,
+  },
   workflow: {
     type: String,
     required: true,
@@ -19,6 +23,7 @@ const settlementSchema = mongoose.Schema({
   },
   options: [
     {
+      
       emi: { type: Number, required: true },
       tenure: { type: Number, required: true },
       roi: { type: Number, required: true },
