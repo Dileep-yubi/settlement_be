@@ -16,8 +16,16 @@ const entitySchema = mongoose.Schema({
   },
   loanTypes: [
     {
-      typeOfLoan: String,
-      disclaimer: String,
+      loanType: { type: String, required: true },
+      disclaimer: { type: String, required: true },
+    },
+  ],
+  feedback: [
+    {
+      link: { type: String, required: true },
+      title: { type: String, required: true },
+      icon: { type: String, required: true },
+      description: { type: String, required: true },
     },
   ],
   version: {
