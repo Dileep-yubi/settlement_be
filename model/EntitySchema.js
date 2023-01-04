@@ -28,6 +28,10 @@ const entitySchema = mongoose.Schema({
       description: { type: String, required: true },
     },
   ],
+  failureUrl: {
+    type: String,
+    required: true,
+  },
   version: {
     type: Number,
     required: true,
