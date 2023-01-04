@@ -1,29 +1,33 @@
 const router = require("express").Router();
-const Settlement = require("../model/Settlement");
+const Settlement = require("../model/WorkflowsSchema");
 const { v4: uuid4 } = require("uuid");
 const urlShortener = require("../Utils/urlShortener");
 
 router.post("/create", async (request, response) => {
   const requestData = request.body;
-  const userId = uuid4();
-  const longUrl = `${process.env.APP_URL}/workflow/${userId}`;
-  const shortUrl = await urlShortener(longUrl);
-  const data = new Settlement({
-    userId,
-    workflow: requestData.workflow,
-    shortenedUrl: shortUrl,
-    longUrl: longUrl,
-    options: requestData.options,
-    amount: requestData.amount,
-    waiver: requestData.waiver,
-    name: requestData.name,
-    totalOutStanding: requestData.totalOutStanding,
-  });
   try {
-    const savedData = await data.save();
+    await requestData.map(async (workflowData) => {
+      const userId = uuid4();
+      const longUrl = `${process.env.APP_URL}/workflow/${userId}`;
+      const shortUrl = await urlShortener(longUrl);
+      const data = new Settlement({
+        userId,
+        displayName: workflowData.displayName,
+        customerEmail: workflowData.customerEmail,
+        customerMobileNo: workflowData.customerMobileNo,
+        loanAccountNo: workflowData.loanAccountNo,
+        workflow: workflowData.workflow,
+        totalOutStanding: workflowData.totalOutStanding,
+        shortenedUrl: shortUrl,
+        longUrl: longUrl,
+        restructuring: workflowData.restructuring,
+        installmentOptions: workflowData.installmentOptions,
+        version: workflowData.version || 1,
+      });
+      const savedData = await data.save();
+    });
     response.status(201).send("Data Inserted");
   } catch (err) {
-    console.log(err);
     response.status(400).send(err);
   }
 });
