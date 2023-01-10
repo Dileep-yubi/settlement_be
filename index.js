@@ -6,7 +6,7 @@ const workflowRoutes = require("./Routes/workflows");
 var cors = require("cors");
 require("dotenv").config();
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 8080;
 
 //Connecting to db
 mongoose.connect(process.env.DB_CONNECT, () => {

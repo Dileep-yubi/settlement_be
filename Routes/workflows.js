@@ -2,6 +2,7 @@ const router = require("express").Router();
 const Settlement = require("../model/WorkflowsSchema");
 const { v4: uuid4 } = require("uuid");
 const urlShortener = require("../Utils/urlShortener");
+const axios = require("axios");
 
 router.post("/create", async (request, response) => {
   const requestData = request.body;
@@ -40,6 +41,42 @@ router.get("/shortenedUrls", async (request, response) => {
     );
   } catch (err) {
     response.status(400).send(err);
+  }
+});
+
+router.get("/get-link", async (req, res) => {
+  try {
+    const response = await axios.post(
+      "https://pg.go-yubi.in/internal/v1/links",
+      {
+        merchant_id: 835,
+        customer_details: {
+          customer_phone: "9891127886",
+          name: "Sushant",
+          email: "sushant.jain@gmail.com",
+          address: "Testing",
+          city: "Hyderabad",
+          state: "TG",
+          pincode: "500050",
+          country: "India",
+        },
+        track_id: uuid4(),
+        amount: 100.12,
+        currency: "INR",
+        purpose: "testing payment",
+        payment_gateway_id: 4,
+        expiry_time: "2023-09-02T11:40:05+05:30",
+        payment_methods: "ccav_uae",
+      },
+      {
+        headers: {
+          "x-api-key": process.env.PAYMENT_API_KEY,
+        },
+      }
+    );
+    res.send(response.data);
+  } catch (err) {
+    res.sendStatus(400).send(err);
   }
 });
 
